@@ -11,23 +11,22 @@ exports.up = async function (knex) {
         table.integer("step_number").notNull()
         table.text("step_instructions").notNull()
         //Below is a foreign key referring to the ID in recipes table
-        table.integer("recipe_id").notNull().references("id").inTable("recipes").onDelete("CASCADE")
+        table.integer("recipe_id").references("id").inTable("recipes").onDelete("CASCADE")
     })
 
     await knex.schema.createTable('ingredients', (table) => {
         table.increments("id")
-        table.text("ingredient_name").notNull()
+        table.text("ingredient_name")
         //Below is a foreign key referring to the ID in steps table
-        table.integer("step_id").notNull().references("id").inTable("steps").onDelete("CASCADE")
+        table.integer("step_id").references("id").inTable("steps").onDelete("CASCADE")
     })
 
     await knex.schema.createTable('quantity', (table) => {
         table.increments("id")
         table.float("quantity").notNull()
-        table.integer("recipe_id").notNull().references("id").inTable("recipes").onDelete("CASCADE")
-        table.integer("step_id").notNull().references("id").inTable("steps").onDelete("CASCADE")
-        table.integer("ingredient_id").notNull().references("id").inTable("ingredients").onDelete("CASCADE")
-
+        table.integer("recipe_id").references("id").inTable("recipes").onDelete("CASCADE")
+        table.integer("step_id").references("id").inTable("steps").onDelete("CASCADE")
+        table.integer("ingredient_id").references("id").inTable("ingredients").onDelete("CASCADE")
     })
 
 };
